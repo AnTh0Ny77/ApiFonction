@@ -30,3 +30,4 @@ function getClient($query , $data){
     }
     return json_decode($response->getBody()->read(1024));
 }
+

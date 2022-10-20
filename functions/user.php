@@ -12,11 +12,11 @@ function login($username , $password){
     $client = new \GuzzleHttp\Client([ 'base_uri' => $config->ApiService->url, 'curl' => array(CURLOPT_SSL_VERIFYPEER => false)]);
   
     try {
-        $response = $client->post('/RESTapi/login',  ['json' => ['user__mail' => $username, 'user__password' => $password]]); 
+        $response = $client->post('/RESTapi//login',  ['json' => ['user__mail' => $username, 'user__password' => $password]]); 
     } catch (GuzzleHttp\Exception\ClientException $exeption) {
         $response = $exeption->getResponse(); 
     }
-    return json_decode($response->getBody()->read(1024));
+    return json_decode($response->getBody()->read(1024) , true);
 }
 
 function getUser($token){
@@ -24,12 +24,13 @@ function getUser($token){
     $config = json_decode($config);
     $client = new \GuzzleHttp\Client([ 'base_uri' => $config->ApiService->url, 'curl' => array(CURLOPT_SSL_VERIFYPEER => false)]);
     try {
-        $response = $client->get('/RESTapi/user', ['headers' => makeHeaders($token)]);
+        $response = $client->get('/RESTapi//user', ['headers' => makeHeaders($token)]);
           
     } catch (GuzzleHttp\Exception\ClientException $exeption) {
         $response = $exeption->getResponse(); 
     }
-    return json_decode($response->getBody()->read(1024));
+    $response = (array) json_decode($response->getBody()->read(1024) , true);
+    return $response ;
 }
 
 function refresh($refresh_token){
@@ -77,5 +78,19 @@ function updatePassword($secretKey , $password ){
         
     }
     return json_decode($response->getBody()->read(1024));
+}
+
+function getMateriels($token ){
+    $config = file_get_contents('config.json');
+    $config = json_decode($config);
+    $client = new \GuzzleHttp\Client([ 'base_uri' => $config->ApiService->url, 'curl' => array(CURLOPT_SSL_VERIFYPEER => false)]);
+    try {
+        $response = $client->get('/RESTapi//materiel',  [   'headers' => makeHeaders($token) , 'query' => [ 'mat__cli__id' =>  [ 1 ,2 ,3]  ]]); 
+    } catch (GuzzleHttp\Exception\ClientException $exeption) {
+        $response = $exeption->getResponse(); 
+    }
+    var_dump($response->getBody()->read(1024));
+    die();
+    // return json_decode($response->getBody()->read(1024));
 }
 
