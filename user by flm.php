@@ -91,11 +91,10 @@ function getCommercial($token, $com__id){
 		//  "limit => 30
  		// ];
 		// exemple de tableau de recherche textuelle : 
-		// $query = [
-		// 	"search" => 'petit papa noel', 
-		//   "limit => 35 ,
-		// 	"mat__marque" => 'DESC'
-		// ];
+		$query = [
+			"search" => 'petit papa noel', 
+		  "limit" => 35 ,
+		];
 		//exemples d appel de getMateriel : 
 			//revoi simplement le parc materiel tout site confondus : 
 				// list_materiel =  getMateriel($token, []);
@@ -107,7 +106,7 @@ function getMateriel($token, $query ){
 	$client=new \GuzzleHttp\Client(['base_uri' => $config->ApiService->url, 'curl' => array(CURLOPT_SSL_VERIFYPEER => false)]);
 	try {
 		
-		$response=$client->get('/api/materiel', ['headers' => makeHeaders($token) , 'query' => $query]);
+		$response=$client->get('/api/materiel', ['headers' => makeHeaders($token) , 'query' => $query ]);
 	} catch (GuzzleHttp\Exception\ClientException$exeption) {
 		$response=$exeption->getResponse();
 	 }
